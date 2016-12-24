@@ -9,6 +9,9 @@ Exported from code.google.com/p/audit-bear
 This requires web2py from http://www.web2py.com/init/default/download
 Upstream does not have a requirements.txt file, so good luck. Not using a virtualenv, I needed to install:
 - matplotlib
+- python-dateutil
+
+It only works correctly with python 2.7.
 
 Once you have the dependencies, symlink this repository's `web2py/applications/audit_bear` into web2py's `applications/` directory. At least, that appears to work.
 
