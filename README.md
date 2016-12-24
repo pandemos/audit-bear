@@ -7,7 +7,7 @@ Exported from code.google.com/p/audit-bear
 ## Setup
 
 This requires web2py from http://www.web2py.com/init/default/download
-It does not have a requirements.txt file, so good luck. Not using a virtualenv, I needed to install:
+Upstream does not have a requirements.txt file, so good luck. Not using a virtualenv, I needed to install:
 - matplotlib
 
 Once you have the dependencies, symlink this repository's `web2py/applications/audit_bear` into web2py's `applications/` directory. At least, that appears to work.
