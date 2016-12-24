@@ -1,0 +1,3 @@
+*.pyc
+web2py/applications/audit_bear/errors/
+web2py/applications/audit_bear/sessions/
