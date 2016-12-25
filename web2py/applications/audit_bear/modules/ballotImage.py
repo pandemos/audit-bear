@@ -49,6 +49,7 @@ class BallotImage:
         for l in file:
             s = l.split("  ")
             t = l.split(" ")
+            stripped_words = [token.strip() for token in l.strip().split(" ")]
             for c in t:
                 if c == '*':
                     voteCount = voteCount + 1
@@ -67,12 +68,22 @@ class BallotImage:
                 #    currentPrecinct = s[14]
                 #else:
                 #    currentPrecinct = s[13]
-                                
+            
+            is_precinct_line = stripped_words[0] in ['PRECINCT', 'Precinct']
+            if is_precinct_line:
+                currentPrecinct = stripped_words[1]
+
+            if is_precinct_line and stripped_words[-3] == 'ELECTION' and stripped_words[-2] == 'ID:':
+                electionID = stripped_words[-1]
+
             """
             If the first string in the line is 7 characters long and an asterisk is present, then the vote count per machine and per precinct is adjusted accordingly.
             """
             if len(s[0]) == 7:
                 if t[5] == '*' or t[4] == '*' or t[3] == '*':
+                    assert currentPrecinct is not None
+                    assert electionID != ''
+
                     if precinctVotesMap.has_key(currentPrecinct):
                         temp = precinctVotesMap[currentPrecinct]
                         temp = temp + 1
@@ -114,6 +125,9 @@ class BallotImage:
                         else:
                             problemMap[s[0]] = [currentPrecinct, machinePrecinctMap[s[0]]]
                 else:
+                    assert currentPrecinct is not None
+                    assert electionID != ''
+
                     machinePrecinctMap[s[0]] = currentPrecinct
         """
         If there were precincts that were combined, their numbers are combined and they are viewed as a single precinct.
@@ -132,10 +146,13 @@ class BallotImage:
         Parses the name and number of the precincts for the various mappings.
         """
         for m in machinePrecinctMap:
-            #print m, machinePrecinctMap[m]
+            print 'm' + m
+            print 'machinePrecinctMap: ' + machinePrecinctMap[m]
             x = ''
             y = ''
             t = machinePrecinctMap[m]
+            if len(t) == 0:
+                continue
             t = t.split(" ")
             u = machinePrecinctMap[m]
             u = u.split(" - ")
